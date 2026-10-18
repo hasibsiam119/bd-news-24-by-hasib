@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import {Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 const notoSerifBengali = Noto_Serif_Bengali({
   
@@ -26,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header></Header>
         
         {children}
-        
+        <Footer></Footer>
         </body>
     </html>
   );
