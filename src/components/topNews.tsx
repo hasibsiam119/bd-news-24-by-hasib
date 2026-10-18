@@ -12,7 +12,7 @@ const TopNews =async () => {
             <h1 className="font-bold text-red-900 text-2xl">সর্বাধিক পঠিত</h1>
             <div>
             {
-                news.map((n,i)=><Link key={n.id} href={n.link}><h1  className="py-3 font-bold hover:text-red-700 flex gap-2"><div className="text-red-700 text-2xl">{i+1}.  </div> {n.title} </h1></Link>)
+                news.map((n,i)=><Link key={n.id} href={`/news/${n.id}`}><h1  className="py-3 font-bold hover:text-red-700 flex gap-2"><div className="text-red-700 text-2xl">{i+1}.  </div> {n.title} </h1></Link>)
             }
             </div>
         </div>

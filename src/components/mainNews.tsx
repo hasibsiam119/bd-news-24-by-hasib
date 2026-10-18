@@ -16,7 +16,7 @@ const MainNews = ({ news }:{news:News[]} ) => {
    const restNews = news.filter((n) => n.id !== firstNews.id);
     return (
         <div className="flex gap-4">
-            <Link href={firstNews.link}>
+            <Link href={`/news/${firstNews.id}`}>
             <div className="card bg-base-100 w-96 shadow-sm">
                 
                 <figure>
@@ -34,7 +34,7 @@ const MainNews = ({ news }:{news:News[]} ) => {
             </Link>
             <div className="p-2 max-h-[500px] overflow-y-auto bg-white  rounded-lg border border-gray-200">
                 {
-                        restNews.map((n,i)=> <Link key={i} href={n.link}><div  className="border-b-1 py-5 font-bold"><p className="text-red-800">{n.category}</p> <h1>{n.title}</h1></div></Link>)
+                        restNews.map((n,i)=> <Link key={i} href={`/news/${n.id}`}><div  className="border-b-1 py-5 font-bold"><p className="text-red-800">{n.category}</p> <h1>{n.title}</h1></div></Link>)
                 }
             </div>
         </div>

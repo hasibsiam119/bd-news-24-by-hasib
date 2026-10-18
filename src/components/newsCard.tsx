@@ -5,8 +5,7 @@ import Link from "next/link";
 const NewsCard = ({ news }:{news:News}) => {
   return (
     <Link
-      href={news.link}
-      target="_blank"
+      href={`/news/${news.id}`}
       rel="noopener noreferrer"
       className="group block w-full max-w-[260px] overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-md"
     >
