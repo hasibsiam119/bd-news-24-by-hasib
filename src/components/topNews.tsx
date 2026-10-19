@@ -4,6 +4,7 @@ import Link from "next/link";
 
 
 const TopNews =async () => {
+    'use cache'
     const res = await fetch("https://news-api-v2.vercel.app/api/news/most-read")
     const data = await res.json()
     const news:News[] = data.data

@@ -1,16 +1,17 @@
+
 import Image from "next/image";
 
 interface DescriptionBlock {
-  type: string;
-  model: {
-    blocks: {
-      type: string;
-      model: {
-        text: string;
+  type?: string;
+  model?: {
+    blocks?: {
+      type?: string;
+      model?: {
+        text?: string;
         blocks?: {
-          type: string;
-          model: {
-            text: string;
+          type?: string;
+          model?: {
+            text?: string;
           };
         }[];
       };
@@ -19,7 +20,7 @@ interface DescriptionBlock {
 }
 
 interface Description {
-  blocks: DescriptionBlock[];
+  blocks?: DescriptionBlock[];
 }
 
 interface NewsBody {
@@ -36,22 +37,22 @@ interface NewsBody {
 interface News {
   id: string;
   title: string;
-  description: Description;
+  description?: Description | null;
   link: string;
   imageUrl?: string;
   firstPublished: string;
   lastPublished: string;
-  byline: {
+  byline?: {
     name: string;
     role?: string;
   }[];
-  topics: {
+  topics?: {
     id: string;
     name: string;
   }[];
-  tags: string[];
-  body: NewsBody[];
-  source: string;
+  tags?: string[];
+  body?: NewsBody[];
+  source?: string;
 }
 
 interface NewsDetailsProps {
@@ -63,21 +64,39 @@ const NewsDetails = ({ news }: NewsDetailsProps) => {
   const descriptionText =
     news.description?.blocks
       ?.flatMap((block) =>
-        block.model.blocks.map((item) => item.model.text)
+        block.model?.blocks?.map(
+          (item) => item.model?.text || ""
+        ) || []
       )
       .filter(Boolean)
       .join(" ") || "";
 
   // Main image-এর duplicate বাদ দেওয়া
-  const filteredBody = news.body?.filter(
-    (item) =>
-      item.type !== "image" ||
-      !news.imageUrl ||
-      item.url !== news.imageUrl
-  );
+  const normalizeUrl = (url?: string) => {
+    if (!url) return "";
+
+    try {
+      const parsedUrl = new URL(url);
+      return `${parsedUrl.origin}${parsedUrl.pathname}`;
+    } catch {
+      return url;
+    }
+  };
+
+  const mainImageUrl = normalizeUrl(news.imageUrl);
+
+  const filteredBody =
+    news.body?.filter((item) => {
+      if (item.type !== "image") return true;
+
+      if (!mainImageUrl || !item.url) return true;
+
+      return normalizeUrl(item.url) !== mainImageUrl;
+    }) || [];
 
   // Published date
   const publishedDate = new Date(news.firstPublished);
+  const isValidDate = !Number.isNaN(publishedDate.getTime());
 
   return (
     <article className="mx-auto max-w-4xl rounded-lg bg-white px-4 py-6 sm:px-8 sm:py-10">
@@ -106,44 +125,66 @@ const NewsDetails = ({ news }: NewsDetailsProps) => {
         <div>
           <p className="font-semibold text-gray-800">
             {news.byline?.length
-              ? news.byline.map((author) => author.name).join(", ")
+              ? news.byline
+                  .map((author) => author.name)
+                  .filter(Boolean)
+                  .join(", ")
               : news.source || "BBC Bangla"}
           </p>
 
           <p className="mt-2 text-sm text-gray-500">
             প্রকাশিত:{" "}
-            {publishedDate.toLocaleDateString("bn-BD", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+            {isValidDate
+              ? publishedDate.toLocaleDateString("bn-BD", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })
+              : "তারিখ পাওয়া যায়নি"}
 
-            {" • "}
-
-            {publishedDate.toLocaleTimeString("bn-BD", {
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            })}
+            {isValidDate && (
+              <>
+                {" • "}
+                {publishedDate.toLocaleTimeString("bn-BD", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
+              </>
+            )}
           </p>
         </div>
 
         {/* Original News Link */}
-        <a
-          href={news.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-semibold text-red-800 hover:underline"
-        >
-          মূল সংবাদ ↗
-        </a>
+        {news.link && (
+          <a
+            href={news.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-red-800 hover:underline"
+          >
+            মূল সংবাদ ↗
+          </a>
+        )}
       </div>
 
-     
+      {/* Main Image */}
+      {news.imageUrl && (
+        <figure className="mb-8">
+          <Image
+            src={news.imageUrl}
+            alt={news.title || "সংবাদ ছবি"}
+            width={1200}
+            height={675}
+            priority
+            className="h-auto w-full rounded-md object-cover"
+          />
+        </figure>
+      )}
 
       {/* Article Body */}
       <div className="space-y-6 text-[17px] leading-8 text-gray-800 sm:text-lg sm:leading-9">
-        {filteredBody?.map((item, index) => {
+        {filteredBody.map((item, index) => {
 
           // Paragraph
           if (item.type === "text" && item.text) {
@@ -200,7 +241,7 @@ const NewsDetails = ({ news }: NewsDetailsProps) => {
       </div>
 
       {/* Tags */}
-      {news.tags?.length > 0 && (
+      {!!news.tags?.length && (
         <div className="mt-10 border-t border-gray-200 pt-6">
           <h2 className="mb-4 text-sm font-bold text-gray-900">
             সম্পর্কিত বিষয়

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Navlinks from "./navlinks";
 import { Suspense } from "react";
+import UserInfo from "./userInfo";
 
 const date = new Date().toLocaleDateString("bn-BD", {
     dateStyle: "full"
@@ -33,16 +34,8 @@ const Header = () => {
                     </div>
 
                     {/* Buttons */}
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                        <button className="btn btn-ghost">
-                            সাইন ইন
-                        </button>
 
-                        <button className="btn btn-active btn-error bg-red-800 text-white">
-                            সাইন আপ
-                        </button>
-                    </div>
-
+                    <UserInfo></UserInfo>
                 </div>
                 <Suspense fallback={<div>Loading...</div>}>
                     <Navlinks />

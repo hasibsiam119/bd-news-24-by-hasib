@@ -6,6 +6,7 @@ import { Suspense } from "react";
 
 
 export default async function Home() {
+  'use cache'
   const res = await fetch("https://news-api-v2.vercel.app/api/news/sections")
   const data = await res.json()
   const newsData = data.data 

@@ -16,7 +16,7 @@ const MainNews = ({ news }:{news:News[]} ) => {
    const restNews = news.filter((n) => n.id !== firstNews.id);
     return (
         <div className="flex gap-4">
-            <Link href={`/news/${firstNews.id}`}>
+            <Link href={firstNews.link}>
             <div className="card bg-base-100 w-96 shadow-sm">
                 
                 <figure>
