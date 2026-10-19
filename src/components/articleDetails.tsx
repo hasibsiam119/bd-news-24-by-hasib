@@ -1,5 +1,7 @@
 
+
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 interface DescriptionBlock {
   type?: string;
@@ -60,6 +62,10 @@ interface NewsDetailsProps {
 }
 
 const NewsDetails = ({ news }: NewsDetailsProps) => {
+     if(!news) {
+        notFound()
+    }
+
   // Description থেকে text বের করা
   const descriptionText =
     news.description?.blocks
@@ -169,18 +175,7 @@ const NewsDetails = ({ news }: NewsDetailsProps) => {
       </div>
 
       {/* Main Image */}
-      {news.imageUrl && (
-        <figure className="mb-8">
-          <Image
-            src={news.imageUrl}
-            alt={news.title || "সংবাদ ছবি"}
-            width={1200}
-            height={675}
-            priority
-            className="h-auto w-full rounded-md object-cover"
-          />
-        </figure>
-      )}
+   
 
       {/* Article Body */}
       <div className="space-y-6 text-[17px] leading-8 text-gray-800 sm:text-lg sm:leading-9">

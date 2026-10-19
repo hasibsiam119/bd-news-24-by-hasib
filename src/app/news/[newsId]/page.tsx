@@ -1,6 +1,7 @@
-import NotFound from "@/app/not-found";
+
 import NewsDetails from "@/components/articleDetails";
-import { Suspense } from "react";
+import { notFound } from "next/navigation";
+
 
 
 interface NewsDetailsPageProps {
@@ -21,7 +22,7 @@ const NewsDetailsPage = async ({  params}: NewsDetailsPageProps) => {
   const result = await res.json();
   const news = result.data;
    if(!news) {
-        NotFound()
+        notFound()
     }
 
   return (

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const NotFound = () => {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-rose-100 to-red-200 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-rose-100 to-red-200 px-4 py-10">
             <div className="text-center max-w-lg">
                 {/* Big 404 with glowing effect */}
                 <h1 className="text-[10rem] sm:text-[12rem] font-black leading-none bg-gradient-to-b from-red-500 to-red-800 bg-clip-text text-transparent drop-shadow-[0_5px_15px_rgba(220,38,38,0.4)] select-none">
