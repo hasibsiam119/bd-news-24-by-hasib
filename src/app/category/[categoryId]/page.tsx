@@ -30,9 +30,9 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
         notFound()
     }
     return (
-        <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl text-red-900 font-bold border-b-2 border-red-900 my-5">{data.title}</h1>
-            <div className="grid grid-cols-4 gap-5">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 xl:px-0">
+            <h1 className="text-2xl sm:text-3xl text-red-900 font-bold border-b-2 border-red-900 my-4 sm:my-5 pb-2">{data.title}</h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 pb-6">
            {
             news.map((news: News)=><NewsCard key={news.id} news={news}></NewsCard>)
            }

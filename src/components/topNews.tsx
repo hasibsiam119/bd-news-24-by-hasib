@@ -9,11 +9,11 @@ const TopNews =async () => {
     const data = await res.json()
     const news:News[] = data.data
     return (
-        <div className="bg-white rounded-lg border border-gray-200 p-5">
-            <h1 className="font-bold text-red-900 text-2xl">সর্বাধিক পঠিত</h1>
+        <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5">
+            <h1 className="font-bold text-red-900 text-xl sm:text-2xl">সর্বাধিক পঠিত</h1>
             <div>
             {
-                news.map((n,i)=><Link key={n.id} href={`/news/${n.id}`}><h1  className="py-3 font-bold hover:text-red-700 flex gap-2"><div className="text-red-700 text-2xl">{i+1}.  </div> {n.title} </h1></Link>)
+                news.map((n,i)=><Link key={n.id} href={`/news/${n.id}`}><h1  className="py-2.5 sm:py-3 font-bold text-sm sm:text-base hover:text-red-700 flex gap-2 break-words"><div className="text-red-700 text-xl sm:text-2xl shrink-0">{i+1}.  </div> <span className="min-w-0">{n.title}</span> </h1></Link>)
             }
             </div>
         </div>
